@@ -1,9 +1,5 @@
 package logica;
 
-import excepciones.*;
-import expendedor.Expendedor;
-import monedas.Moneda;
-import productos.Producto;
 
 /**
  * Clase que actua como un comprador que interactua con {@link Expendedor}.
@@ -25,7 +21,9 @@ public class Comprador {
      */
     public Comprador(Moneda m, int eleccion, Expendedor exp) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
 
-        Producto p = exp.comprarProducto(m, eleccion);
+        exp.comprarProducto(m, eleccion);
+
+        Producto p = exp.getProducto();
 
         if (p!= null) {
             sabor= p.Consumir();

@@ -1,8 +1,5 @@
 package logica;
 
-import excepciones.*;
-import monedas.*;
-import productos.*;
 
 /**
  * Clase que simula expendedor de productos.
@@ -21,6 +18,11 @@ public class Expendedor {
     private Deposito<Dulce> super8D;
     private Deposito<Moneda> monVU;
 
+    //Depósito para guardar las monedas con las que se paga
+    private Deposito<Moneda> depositoGanancias;
+
+    //"Depósito especial" de capacidad 1 para el producto recién comprado.
+    private Producto productoEntregado;
     private void limpiarVuelto(){
         while(monVU.get() != null){}
     }
@@ -37,6 +39,10 @@ public class Expendedor {
         this.super8D= new Deposito<Dulce>();
         this.monVU= new Deposito<Moneda>();
 
+        // inicializamos el depósito de ganancias y dejamos la entrega vacia
+        this.depositoGanancias = new Deposito<Moneda>();
+        this.productoEntregado = null;
+
         for (int i= 0; i < cantidad; i++)
         {
             cocacolaD.add(new CocaCola(1000 + i));
@@ -49,14 +55,15 @@ public class Expendedor {
 
     /**
      * Procesa la compra de un producto, recibiendo la elección y una moneda de pago.
+     * Si la compra es exitosa, el producto quedará disponible en el compartimento de entrega.
      * @param m Moneda con la que se realizará el pago
      * @param eleccion  Codigo con el que el producto elegido se identifica en {@link Inventario}
-     * @return producto solicitado si la transaccion es completada. {@link Producto}
      * @throws PagoIncorrectoException Si se intenta pagar con una moneda nula.
      * @throws PagoInsuficienteException Si se intenta pagar con una moneda de valor menor al del precio del producto.
      * @throws NoHayProductoException Si el codigo de la elección no existe o el deposito está vacio.
      */
-    public Producto comprarProducto(Moneda m, int eleccion) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
+
+    public void comprarProducto(Moneda m, int eleccion) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
         Producto p= null;
         int precioProducto= 0;
 
@@ -74,6 +81,7 @@ public class Expendedor {
                 break;
             }
         }
+
         if (seleccion == null){
             monVU.add(m);
             throw new NoHayProductoException("No existe el producto!");
@@ -102,32 +110,52 @@ public class Expendedor {
                 break;
         }
 
-
         if(m.getValor() < precioProducto){ //El valor de la moneda es menor al del producto
-
             monVU.add(m);
             throw new PagoInsuficienteException("Cantidad insuficiente de dinero.");
         }
 
         if (p == null){ //No hay producto
-
             monVU.add(m);
             throw new NoHayProductoException("No hay existencias del producto seleccionado");
         }
 
-        int vuelto= m.getValor() - precioProducto;
+        //La compra fue exitosa. Guardamos la moneda de pago en las ganancias.
+        depositoGanancias.add(m);
+
+        //Dejamos el producto en el "depósito especial" de entrega.
+        this.productoEntregado = p;
+
+        // vuelto inteligente en valores distintos de 100.
+        int vuelto = m.getValor() - precioProducto;
+
+        while (vuelto >= 1000) {
+            monVU.add(new Moneda1000());
+            vuelto -= 1000;
+        }
+        while (vuelto >= 500) {
+            monVU.add(new Moneda500());
+            vuelto -= 500;
+        }
         while(vuelto >= 100){
             monVU.add(new Moneda100());
             vuelto -= 100;
         }
 
-        return p;
+    }
+    //Metodo equivalente a "meter la mano" para sacar el producto.
+    /**
+     * Permite retirar el producto comprado del compartimento de entrega.
+     * @return El {@link Producto} comprado o null si está vacío.
+     */
+    public Producto getProducto() {
+        Producto productoRetirado = this.productoEntregado;
+        this.productoEntregado = null; // Se vacía el compartimento al sacarlo
+        return productoRetirado;
     }
 
     /**
-     * Permite retirar las monedas almacenadas en el deposito del vuelto tras una transacción exitosa o un pago fallido.
-     * Extrae las monedas de una en una.
-     * @return {@link Moneda} de valor 100 o la moneda original si el pago es fallido.
+     * Permite retirar las monedas almacenadas en el deposito del vuelto.
      */
     public Moneda getVuelto() {
         return monVU.get();
