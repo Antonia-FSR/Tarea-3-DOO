@@ -9,21 +9,37 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
+/**
+ *  Sobrescribe el metodo de dibujo para renderizar todos los componentes del panel.
+ * Dibuja de manera secuencial el chasis de la máquina, la cavidad interna oscura,
+ * los estantes con sus etiquetas numéricas de selección, el panel de control lateral,
+ * el teclado indexado y los elementos gráficos de prueba.
+ * * @param g El contexto gráfico (Graphics) utilizado para pintar en el componente.
+ */
 public class PanelExpendedor extends JPanel {
     private Expendedor expendedor;
 
-    public PanelExpendedor(Expendedor exp){
-        this.expendedor= exp;
+    private VistaBebida vistaSprite;
+    private VistaBebida vistaFanta;
+    private VistaMoneda vistaM100;
+    private VistaMoneda vistaM500;
+    private VistaMoneda vistaM1000;
+    private VistaBebida vistaCoca;
+    private VistaDulce vistaSnickers;
+    private VistaDulce vistaSuper8;
+
+    public PanelExpendedor(Expendedor exp) {
+        this.expendedor = exp;
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         // --- PREPARAMOS EL PINCEL AVANZADO (Graphics2D) ---
         Graphics2D g2 = (Graphics2D) g;
 
-        // ESTO ES CLAVE: Suaviza las líneas para que no se vean "pixeladas"
+        //Suaviza las líneas para que no se vean "pixeladas"
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // --- DEFINIMOS LAS COORDENADAS BASE DE LA MÁQUINA ---
@@ -37,7 +53,7 @@ public class PanelExpendedor extends JPanel {
         // Creamos un degradado que va de un rojo brillante (centro) a un rojo oscuro (lados)
         GradientPaint metalGradient = new GradientPaint(
                 mX, 0, new Color(200, 0, 0),       // Rojo oscuro (izquierda)
-                mX + mW/2, 0, new Color(255, 60, 60), // Rojo brillante (centro)
+                mX + mW / 2, 0, new Color(255, 60, 60), // Rojo brillante (centro)
                 true); // Repetir el gradiente
 
         g2.setPaint(metalGradient);
@@ -48,18 +64,18 @@ public class PanelExpendedor extends JPanel {
         g2.setStroke(new BasicStroke(4)); // Línea más gruesa
         g2.drawRoundRect(mX, mY, mW, mH, radius, radius);
 
-        // --- 3. EL VIDRIO (PANEL DE PRODUCTOS) ---
+        // --- 3. EL FONDO (PANEL DE PRODUCTOS) ---
         int pX = mX + 50;
         int pY = mY + 60;
         int pW = 200;
         int pH = 350;
         int pRad = 20;
 
-        // Color cian muy claro y ligeramente transparente
-        g2.setColor(new Color(150, 245, 255, 180));
+        // Color gris oscuro/azulado para dar profundidad al interior de la máquina
+        g2.setColor(new Color(30, 35, 40));
         g2.fillRoundRect(pX, pY, pW, pH, pRad, pRad);
 
-        // Marco oscuro para el vidrio
+        // Marco oscuro para el borde interno
         g2.setColor(new Color(80, 80, 80));
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(pX, pY, pW, pH, pRad, pRad);
@@ -67,9 +83,41 @@ public class PanelExpendedor extends JPanel {
         // --- 4. EFECTO DE REFLEJO EN EL VIDRIO (DIBUJANDO LÍNEAS) ---
         g2.setColor(new Color(255, 255, 255, 150)); // Blanco semi-transparente
         g2.setStroke(new BasicStroke(2));
-        // Dibujamos dos líneas diagonales finas para simular reflejo de luz
-        g2.drawLine(pX + 20, pY + 20, pX + 70, pY + pH - 20);
-        g2.drawLine(pX + 40, pY + 20, pX + 90, pY + pH - 20);
+        // --- 4.5 ESTANTES HORIZONTALES ---
+        // Dibujaremos 3 estantes distribuidos a lo largo del vidrio
+        g2.setColor(new Color(60, 60, 60)); // Color gris oscuro metálico
+        g2.setStroke(new BasicStroke(2)); // Línea delgada
+
+        // Estante 1 (Superior, donde está la Coca)
+        g2.drawLine(pX, pY + 110, pX + pW, pY + 110);
+
+        // Estante 2 (Medio, donde está el Snickers)
+        g2.drawLine(pX, pY + 210, pX + pW, pY + 210);
+
+        // Estante 3 (Inferior)
+        g2.drawLine(pX, pY + 310, pX + pW, pY + 310);
+
+        // --- 4.6 ETIQUETAS DE LOS ESTANTES (NUEVO) ---
+        g2.setColor(new Color(255, 215, 0)); // Un color amarillo dorado para que resalte en el fondo oscuro
+        g2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 9));
+
+        // Etiquetas para el Estante 1 (Bebidas)
+        // Las posicionamos justo debajo de la línea del estante (pY + 110)
+        g2.drawString("1", pX + 30, pY + 122);  // Espacio para la primera bebida
+        g2.drawString("2", pX + 90, pY + 122);  // Espacio para la segunda bebida
+        g2.drawString("3", pX + 150, pY + 122); // Espacio para la tercera bebida
+
+        // Etiquetas para el Estante 2 (Dulces)
+        // Justo debajo del segundo estante (pY + 210)
+        g2.drawString("4", pX + 30, pY + 222);  // Espacio para el primer dulce
+        g2.drawString("5", pX + 90, pY + 222);  // Espacio para el segundo dulce
+        g2.drawString("6", pX + 150, pY + 222); // Espacio para el tercer dulce
+
+        // Etiquetas para el Estante 3
+        // Justo debajo del tercer estante (pY + 310)
+        g2.drawString("7", pX + 30, pY + 322);
+        g2.drawString("8", pX + 90, pY + 322);
+        g2.drawString("9", pX + 150, pY + 322);
 
         // --- 5. BANDEJA DE ENTREGA (MÁS MODERNA) ---
         g2.setColor(new Color(60, 60, 60)); // Gris muy oscuro
@@ -104,16 +152,28 @@ public class PanelExpendedor extends JPanel {
         g2.setStroke(new BasicStroke(2));
         g2.drawRoundRect(ctrlX + 10, ctrlY + 15, 60, 30, 5, 5);
 
-        // b) Teclado numérico (Subido un poco para hacer espacio abajo)
-        g2.setColor(new Color(200, 200, 200));
+        // b) Teclado numérico (Ahora con números pintados)
         int btnInicioX = ctrlX + 13;
         int btnInicioY = ctrlY + 65;
+        int numeroBoton = 1; // Empezamos a contar desde el botón 1
 
         for (int fila = 0; fila < 3; fila++) {
             for (int col = 0; col < 3; col++) {
                 int bx = btnInicioX + (col * 20);
                 int by = btnInicioY + (fila * 20);
+
+                // 1. Dibujamos el fondo gris del botón
+                g2.setColor(new Color(200, 200, 200));
                 g2.fillRoundRect(bx, by, 14, 14, 4, 4);
+
+                // 2. Dibujamos el número en color negro
+                g2.setColor(Color.BLACK);
+                g2.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 10));
+                // Ajustamos las coordenadas para que el número quede centrado en el cuadradito
+                g2.drawString(String.valueOf(numeroBoton), bx + 4, by + 12);
+
+                // Aumentamos el contador para el siguiente botón (2, 3, 4...)
+                numeroBoton++;
             }
         }
 
