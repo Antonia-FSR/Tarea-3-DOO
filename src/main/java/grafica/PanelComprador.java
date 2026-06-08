@@ -5,6 +5,13 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa el panel gráfico donde el usuario interactúa con la máquina.
+ * Se encarga de gestionar la billetera, las monedas seleccionadas, los productos comprados
+ * y la recolección del vuelto mediante clics del mouse.
+ *
+ * @author jaocSec
+ */
 public class PanelComprador extends JPanel {
     private Expendedor exp;
 
@@ -28,6 +35,12 @@ public class PanelComprador extends JPanel {
     }
 
 
+    /**
+     * Procesa los clicks del usuario para interactuar con la máquina.
+     * Identifica si se presionó la billetera, el teclado numérico, el botón de compra o las zonas de retiro de productos y vuelto.
+     * @param x Coordenada horizontal del clic.
+     * @param y Coordenada vertical del clic.
+     */
     public void evaluarClick(int x, int y) {
         //Hitbox billetera
         if (y >= 100 && y <= 150) {
@@ -122,6 +135,10 @@ public class PanelComprador extends JPanel {
             }
         }
     }
+
+    /**
+     * Dibuja toda la interfaz del comprador, incluyendo su inventario.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
