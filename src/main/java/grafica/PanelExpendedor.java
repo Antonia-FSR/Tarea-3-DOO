@@ -1,5 +1,5 @@
 package grafica;
-import logica.Expendedor;
+import logica.*;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -19,14 +19,11 @@ import javax.swing.JPanel;
 public class PanelExpendedor extends JPanel {
     private Expendedor expendedor;
 
-    private VistaBebida vistaSprite;
-    private VistaBebida vistaFanta;
-    private VistaMoneda vistaM100;
-    private VistaMoneda vistaM500;
-    private VistaMoneda vistaM1000;
-    private VistaBebida vistaCoca;
-    private VistaDulce vistaSnickers;
-    private VistaDulce vistaSuper8;
+    private VistaBebida displaySprite;
+    private VistaBebida displayFanta;
+    private VistaBebida displayCoca;
+    private VistaDulce displaySnickers;
+    private VistaDulce displaySuper8;
 
     public PanelExpendedor(Expendedor exp) {
         this.expendedor = exp;
@@ -225,5 +222,20 @@ public class PanelExpendedor extends JPanel {
         // Una pequeña tapita plástica oscura adentro (la solapa que uno empuja para sacar las monedas)
         g2.setColor(new Color(25, 25, 25));
         g2.fillRoundRect(vueltoX + 5, vueltoY + 5, vueltoW - 10, vueltoH - 12, 5, 5);
+
+
+        //DISPLAYS
+        this.displayCoca = new VistaBebida(new CocaCola(0));
+        this.displaySprite = new VistaBebida(new Sprite(0));
+        this.displayFanta = new VistaBebida(new Fanta(0));
+        this.displaySnickers = new VistaDulce(new Snickers(0));
+        this.displaySuper8 = new VistaDulce(new Super8(0));
+
+        this.displayCoca.paint(g2, pX + 20, pY + 60);   // Espacio 1
+        this.displaySprite.paint(g2, pX + 80, pY + 60); // Espacio 2
+        this.displayFanta.paint(g2, pX + 140, pY + 60); // Espacio 3
+
+        this.displaySnickers.paint(g2, pX + 20, pY + 160); // Espacio 4
+        this.displaySuper8.paint(g2, pX + 80, pY + 160);   // Espacio 5
     }
 }
