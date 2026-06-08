@@ -160,5 +160,13 @@ public class Expendedor {
     public Moneda getVuelto() {
         return monVU.get();
     }
+
+    public Deposito<Bebida> getCocacolaD() { return cocacolaD; }
+    public Deposito<Bebida> getSpriteD() { return spriteD; }
+    public Deposito<Bebida> getFantaD() { return fantaD; }
+    public Deposito<Dulce> getSnickersD() { return snickersD; }
+    public Deposito<Dulce> getSuper8D() { return super8D; }
+
+    public Producto getProductoEntregado() { return productoEntregado; }
 }
 

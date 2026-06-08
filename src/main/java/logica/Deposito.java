@@ -27,4 +27,11 @@ public class Deposito<T> {
         }
         return lista.remove(0);
     }
+
+    public T getItem(int index) {
+        return lista.get(index);
+    }
+    public int getSize() {
+        return lista.size();
+    }
 }
