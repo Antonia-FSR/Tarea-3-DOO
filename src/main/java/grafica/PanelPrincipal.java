@@ -51,5 +51,6 @@ public class PanelPrincipal extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         exp.paintComponent(g);
+        com.paintComponent(g);
     }
 }

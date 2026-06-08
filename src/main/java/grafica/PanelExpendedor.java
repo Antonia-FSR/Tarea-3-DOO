@@ -223,19 +223,72 @@ public class PanelExpendedor extends JPanel {
         g2.setColor(new Color(25, 25, 25));
         g2.fillRoundRect(vueltoX + 5, vueltoY + 5, vueltoW - 10, vueltoH - 12, 5, 5);
 
+        //DISPLAY
+        int alturaRepisa1 = pY + 60;
 
-        //DISPLAYS
-        this.displayCoca = new VistaBebida(new CocaCola(0));
-        this.displaySprite = new VistaBebida(new Sprite(0));
-        this.displayFanta = new VistaBebida(new Fanta(0));
-        this.displaySnickers = new VistaDulce(new Snickers(0));
-        this.displaySuper8 = new VistaDulce(new Super8(0));
+        //Cocacola
+        int frontXCoca = pX + 20;
+        int frontYCoca = alturaRepisa1;
+        int cantCoca = expendedor.getCocacolaD().getSize();
+        for (int i = cantCoca - 1; i >= 0; i--) {
+            Producto p = expendedor.getCocacolaD().getItem(i);
+            VistaBebida vb = new VistaBebida(p); // Usamos tu clase intacta
+            vb.paint(g2, frontXCoca + (i * 6), frontYCoca - (i * 6));
+        }
 
-        this.displayCoca.paint(g2, pX + 20, pY + 60);   // Espacio 1
-        this.displaySprite.paint(g2, pX + 80, pY + 60); // Espacio 2
-        this.displayFanta.paint(g2, pX + 140, pY + 60); // Espacio 3
+        //Sprite
+        int frontXSprite = pX + 80;
+        int frontYSprite = alturaRepisa1;
+        int cantSprite = expendedor.getSpriteD().getSize();
+        for (int i = cantSprite - 1; i >= 0; i--) {
+            Producto p = expendedor.getSpriteD().getItem(i);
+            VistaBebida vb = new VistaBebida(p);
+            vb.paint(g2, frontXSprite + (i * 6), frontYSprite - (i * 6));
+        }
 
-        this.displaySnickers.paint(g2, pX + 20, pY + 160); // Espacio 4
-        this.displaySuper8.paint(g2, pX + 80, pY + 160);   // Espacio 5
+        //Fanta
+        int frontXFanta = pX + 140;
+        int frontYFanta = alturaRepisa1;
+        int cantFanta = expendedor.getFantaD().getSize();
+        for (int i = cantFanta - 1; i >= 0; i--) {
+            Producto p = expendedor.getFantaD().getItem(i);
+            VistaBebida vb = new VistaBebida(p);
+            vb.paint(g2, frontXFanta + (i * 6), frontYFanta - (i * 6));
+        }
+
+        int alturaRepisa2 = pY + 160;
+
+        //Snickers
+        int frontXSnickers = pX + 20;
+        int frontYSnickers = alturaRepisa2;
+        int cantSnickers = expendedor.getSnickersD().getSize();
+        for (int i = cantSnickers - 1; i >= 0; i--) {
+            Producto p = expendedor.getSnickersD().getItem(i);
+            VistaDulce vd = new VistaDulce(p);
+            vd.paint(g2, frontXSnickers + (i * 4), frontYSnickers - (i * 4));
+        }
+
+        //Super8
+        int frontXSuper8 = pX + 80;
+        int frontYSuper8 = alturaRepisa2;
+        int cantSuper8 = expendedor.getSuper8D().getSize();
+        for (int i = cantSuper8 - 1; i >= 0; i--) {
+            Producto p = expendedor.getSuper8D().getItem(i);
+            VistaDulce vd = new VistaDulce(p);
+            vd.paint(g2, frontXSuper8 + (i * 4), frontYSuper8 - (i * 4));
+        }
+
+        //Bandeja
+        Producto entregado = expendedor.getProductoEntregado();
+        if (entregado != null) {
+            // Evaluamos de qué tipo es para usar la vista correcta
+            if (entregado instanceof Bebida) {
+                VistaBebida vb = new VistaBebida(entregado);
+                vb.paint(g2, pX + 85, pY + pH + 35); // Centrado en la bandeja
+            } else if (entregado instanceof Dulce) {
+                VistaDulce vd = new VistaDulce(entregado);
+                vd.paint(g2, pX + 85, pY + pH + 35);
+            }
+        }
     }
 }
