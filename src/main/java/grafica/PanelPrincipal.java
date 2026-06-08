@@ -1,4 +1,5 @@
 package grafica;
+import logica.Expendedor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -26,6 +27,9 @@ import logica.Moneda500;
  */
 
 public class PanelPrincipal extends JPanel {
+    private Expendedor expLogico;
+    private PanelExpendedor exp;
+    //private PanelComprador com;
     // Variables de prueba
     private Sprite spritePrueba;
     private Fanta fantaPrueba;
@@ -72,6 +76,10 @@ public class PanelPrincipal extends JPanel {
         this.vistaSuper8 = new VistaDulce(super8Prueba);
         // Fondo gris muy claro para que la máquina resalte
         this.setBackground(new Color(240, 240, 240));
+
+        expLogico= new Expendedor(5);
+        exp= new PanelExpendedor(expLogico);
+    //    com= new PanelComprador();
     }
     /**
      * Sobrescribe el metodo de dibujo para renderizar todos los componentes del panel.
@@ -83,6 +91,7 @@ public class PanelPrincipal extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        exp.paintComponent(g);
 
         // --- PREPARAMOS EL PINCEL AVANZADO (Graphics2D) ---
         Graphics2D g2 = (Graphics2D) g;
