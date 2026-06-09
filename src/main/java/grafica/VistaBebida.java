@@ -15,12 +15,23 @@ public class VistaBebida {
      * Referencia al producto lógico real del cual se extraen los datos para el dibujo.
      */
     private Producto producto;
+    private int x;
+    private int y;
     /**
      * Constructor de la clase VistaBebida.
      * * @param producto El objeto Producto lógico que se va a representar gráficamente.
      */
     public VistaBebida(Producto producto) {
         this.producto = producto;
+    }
+    /**
+     * Actualiza la posición de la vista dentro del panel.
+     * @param x Coordenada horizontal.
+     * @param y Coordenada vertical.
+     */
+    public void setXY(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
     /**
      * Dibuja la lata de bebida en el panel gráfico utilizando las coordenadas proporcionadas.

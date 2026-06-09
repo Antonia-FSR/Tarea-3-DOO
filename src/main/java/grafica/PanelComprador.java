@@ -180,9 +180,6 @@ public class PanelComprador extends JPanel {
             vm.paint(g2, 570, 200);
         }
 
-        if(exp.getNumeroDigitado()!=-1){
-            g2.drawString("Código: "+exp.getNumeroDigitado(), 570, 170);
-        }
         //vuelto
         g2.setColor(Color.BLACK);
         g2.drawString("Mi Vuelto:", 570, 280);

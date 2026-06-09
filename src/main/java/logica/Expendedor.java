@@ -84,7 +84,6 @@ public class Expendedor {
         Producto p= null;
         int precioProducto= 0;
 
-        limpiarVuelto();
 
         if(m == null) //No existe moneda
         {
