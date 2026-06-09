@@ -72,11 +72,6 @@ public class Expendedor {
      */
 
     public void comprarProducto(Moneda m, int eleccion) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException, DepositoProductoOcupadoException {
-
-        if (productoEntregado != null) {
-            throw new DepositoProductoOcupadoException("Retire primero el producto anterior!");
-        }
-
         Producto p= null;
         int precioProducto= 0;
 
@@ -98,6 +93,11 @@ public class Expendedor {
         if (seleccion == null){
             monVU.add(m);
             throw new NoHayProductoException("No existe el producto!");
+        }
+
+        if (productoEntregado != null) {
+            monVU.add(m);
+            throw new DepositoProductoOcupadoException("Retire primero el producto anterior!");
         }
 
         precioProducto = seleccion.getPrecio();

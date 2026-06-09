@@ -77,15 +77,15 @@ public class PanelComprador extends JPanel {
                     exp.comprarProducto(monedaEnMano, numeroDigitado);
                     System.out.println("¡Compra exitosa procesada por la máquina!");
 
-                    monedaEnMano = null;
-                    numeroDigitado = -1;
-
-                    repaint();
 
                 } catch (Exception e) {
                     System.out.println("La máquina rechazó la compra: " + e.getMessage());
                 }
 
+                monedaEnMano = null;
+                numeroDigitado = -1;
+
+                repaint();
 
             } else {
                 System.out.println("Falta plata en la mano o te faltó digitar el número.");
