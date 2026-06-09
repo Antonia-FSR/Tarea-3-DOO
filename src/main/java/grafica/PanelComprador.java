@@ -21,7 +21,6 @@ public class PanelComprador extends JPanel {
     private ArrayList<Producto> compras;
     private ArrayList<Moneda> vuelto;
 
-    private int numeroDigitado = -1;
     private Moneda monedaEnMano= null;
 
     public PanelComprador(Expendedor exp) {
@@ -70,11 +69,11 @@ public class PanelComprador extends JPanel {
 
         if (x >= pushX && x <= pushX + 38 && y >= pushY && y <= pushY + 28) {
 
-            if (monedaEnMano != null && numeroDigitado != -1) {
+            if (monedaEnMano != null && exp.getNumeroDigitado() != -1) {
                 System.out.println("Procesando PUSH...");
                 try {
 
-                    exp.comprarProducto(monedaEnMano, numeroDigitado);
+                    exp.comprarProducto(monedaEnMano, exp.getNumeroDigitado());
                     System.out.println("¡Compra exitosa procesada por la máquina!");
 
 
@@ -83,7 +82,7 @@ public class PanelComprador extends JPanel {
                 }
 
                 monedaEnMano = null;
-                numeroDigitado = -1;
+                exp.setNumeroDigitado(-1);
 
                 repaint();
 
@@ -137,9 +136,9 @@ public class PanelComprador extends JPanel {
                 int by = btnInicioY + (fila * 20);
 
                 if (x >= bx && x <= bx + 14 && y >= by && y <= by + 14) {
-                    numeroDigitado = fila * 3 + col + 1;
-                    System.out.println("Presionaste: " + numeroDigitado);
-                    exp.setNumeroDigitado(numeroDigitado);
+                    exp.setNumeroDigitado(fila * 3 + col + 1);
+                    System.out.println("Presionaste: " + exp.getNumeroDigitado());
+                    exp.setNumeroDigitado(exp.getNumeroDigitado());
                     repaint();
                     return;
                 }
@@ -181,8 +180,8 @@ public class PanelComprador extends JPanel {
             vm.paint(g2, 570, 200);
         }
 
-        if(numeroDigitado!=-1){
-            g2.drawString("Código: "+numeroDigitado, 570, 170);
+        if(exp.getNumeroDigitado()!=-1){
+            g2.drawString("Código: "+exp.getNumeroDigitado(), 570, 170);
         }
         //vuelto
         g2.setColor(Color.BLACK);

@@ -17,6 +17,13 @@ public class Expendedor {
     private Deposito<Dulce> snickersD;
     private Deposito<Dulce> super8D;
     private Deposito<Moneda> monVU;
+    private int serieCoca = 1000;
+    private int serieSprite = 2000;
+    private int serieFanta = 3000;
+    private int serieSnickers = 4000;
+    private int serieSuper8 = 5000;
+
+    private int capacidadInicial;
     private int numeroDigitado = -1;
 
     public void setNumeroDigitado(int numero) {
@@ -40,6 +47,8 @@ public class Expendedor {
      * @param cantidad Número de unidades de cada producto que cada deposito contendrá.
      */
     public Expendedor(int cantidad){
+        capacidadInicial = cantidad;
+
         this.cocacolaD= new Deposito<Bebida>();
         this.spriteD= new Deposito<Bebida>();
         this.fantaD= new Deposito<Bebida>();
@@ -51,13 +60,13 @@ public class Expendedor {
         this.depositoGanancias = new Deposito<Moneda>();
         this.productoEntregado = null;
 
-        for (int i= 0; i < cantidad; i++)
-        {
-            cocacolaD.add(new CocaCola(1000 + i));
-            spriteD.add(new Sprite(2000 + i));
-            fantaD.add(new Fanta(3000 + i));
-            snickersD.add(new Snickers(4000 + i));
-            super8D.add(new Super8(5000 + i));
+        for(int i=0;i<cantidad;i++){
+
+            cocacolaD.add(new CocaCola(serieCoca++));
+            spriteD.add(new Sprite(serieSprite++));
+            fantaD.add(new Fanta(serieFanta++));
+            snickersD.add(new Snickers(serieSnickers++));
+            super8D.add(new Super8(serieSuper8++));
         }
     }
 
@@ -182,5 +191,28 @@ public class Expendedor {
 
     public Producto getProductoEntregado() { return productoEntregado; }
 
+
+    public void rellenarDepositos() {
+
+        while (cocacolaD.getSize() < capacidadInicial) {
+            cocacolaD.add(new CocaCola(serieCoca++));
+        }
+
+        while (spriteD.getSize() < capacidadInicial) {
+            spriteD.add(new Sprite(serieSprite++));
+        }
+
+        while (fantaD.getSize() < capacidadInicial) {
+            fantaD.add(new Fanta(serieFanta++));
+        }
+
+        while (snickersD.getSize() < capacidadInicial) {
+            snickersD.add(new Snickers(serieSnickers++));
+        }
+
+        while (super8D.getSize() < capacidadInicial) {
+            super8D.add(new Super8(serieSuper8++));
+        }
+    }
 }
 

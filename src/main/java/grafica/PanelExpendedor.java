@@ -299,4 +299,18 @@ public class PanelExpendedor extends JPanel {
             }
         }
     }
+
+    public void evaluarClick(int x, int y) {
+        // Zona del vidrio
+        int pX = 150;
+        int pY = 110;
+        int pW = 200;
+        int pH = 350;
+
+        if (x >= pX && x <= pX + pW &&
+                y >= pY && y <= pY + pH) {
+
+            expendedor.rellenarDepositos();
+        }
+    }
 }

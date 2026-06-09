@@ -41,6 +41,7 @@ public class PanelPrincipal extends JPanel {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
                 com.evaluarClick(mouseX, mouseY);
+                exp.evaluarClick(mouseX, mouseY);
 
                 repaint();
             }
