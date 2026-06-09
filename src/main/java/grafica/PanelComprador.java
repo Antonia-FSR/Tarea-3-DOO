@@ -164,30 +164,33 @@ public class PanelComprador extends JPanel {
 
         //billetera
         g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.drawString("Mi Billetera:", 570, 80);
+        g2.drawString("Billetera:", 570, 80);
 
         int posX = 570;
         for (Moneda m : billetera) {
             VistaMoneda vm = new VistaMoneda(m);
-            vm.paint(g2, posX, 100);
-            posX += 60; // Separamos las monedas para que no se superpongan
+            vm.setXY(posX, 100);
+            vm.paint(g2);
+            posX += 60;
         }
 
         //moneda en mano
         if (monedaEnMano != null) {
             g2.drawString("En la mano:", 570, 180);
             VistaMoneda vm = new VistaMoneda(monedaEnMano);
-            vm.paint(g2, 570, 200);
+            vm.setXY(570, 200);
+            vm.paint(g2);
         }
 
         //vuelto
         g2.setColor(Color.BLACK);
-        g2.drawString("Mi Vuelto:", 570, 280);
+        g2.drawString("Vuelto:", 570, 280);
         int vPosX = 570;
         int vPosY = 300;
         for (int i = 0; i < vuelto.size(); i++) {
             VistaMoneda vm = new VistaMoneda(vuelto.get(i));
-            vm.paint(g2, vPosX, vPosY);
+            vm.setXY(vPosX, vPosY);
+            vm.paint(g2);
             vPosX += 60;
             // Si hay muchas monedas, hacemos una segunda fila
             if (vPosX > 800) {
@@ -198,17 +201,19 @@ public class PanelComprador extends JPanel {
 
         //compras
         g2.setColor(Color.BLACK);
-        g2.drawString("Mis Compras:", 570, 420);
+        g2.drawString("Compras:", 570, 420);
         int cPosX = 570;
         int cPosY = 440;
         for (Producto p : compras) {
-            // Evaluamos qué tipo de producto es para usar la vista correcta
+
             if (p instanceof Bebida) {
                 VistaBebida vb = new VistaBebida((Bebida) p);
-                vb.paint(g2, cPosX, cPosY);
+                vb.setXY(cPosX, cPosY);
+                vb.paint(g2);
             } else if (p instanceof Dulce) {
                 VistaDulce vd = new VistaDulce((Dulce) p);
-                vd.paint(g2, cPosX, cPosY);
+                vd.setXY(cPosX, cPosY);
+                vd.paint(g2);
             }
             cPosX += 60;
         }
