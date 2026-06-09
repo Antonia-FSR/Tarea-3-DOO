@@ -1,12 +1,7 @@
 package grafica;
 import logica.*;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import javax.swing.JPanel;
 
 /**
@@ -222,6 +217,19 @@ public class PanelExpendedor extends JPanel {
         // Una pequeña tapita plástica oscura adentro (la solapa que uno empuja para sacar las monedas)
         g2.setColor(new Color(25, 25, 25));
         g2.fillRoundRect(vueltoX + 5, vueltoY + 5, vueltoW - 10, vueltoH - 12, 5, 5);
+
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Consolas", Font.BOLD, 18));
+
+        if (expendedor.getNumeroDigitado() != -1) {
+            String texto = String.valueOf(expendedor.getNumeroDigitado());
+
+            FontMetrics fm = g2.getFontMetrics();
+            int x = ctrlX + 10 + (60 - fm.stringWidth(texto)) / 2;
+            int y = ctrlY + 15 + ((30 - fm.getHeight()) / 2) + fm.getAscent();
+
+            g2.drawString(texto, x, y);
+        }
 
         //DISPLAY
         int alturaRepisa1 = pY + 60;

@@ -17,7 +17,15 @@ public class Expendedor {
     private Deposito<Dulce> snickersD;
     private Deposito<Dulce> super8D;
     private Deposito<Moneda> monVU;
+    private int numeroDigitado = -1;
 
+    public void setNumeroDigitado(int numero) {
+        this.numeroDigitado = numero;
+    }
+
+    public int getNumeroDigitado() {
+        return numeroDigitado;
+    }
     //Depósito para guardar las monedas con las que se paga
     private Deposito<Moneda> depositoGanancias;
 
@@ -63,7 +71,12 @@ public class Expendedor {
      * @throws NoHayProductoException Si el codigo de la elección no existe o el deposito está vacio.
      */
 
-    public void comprarProducto(Moneda m, int eleccion) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
+    public void comprarProducto(Moneda m, int eleccion) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException, DepositoProductoOcupadoException {
+
+        if (productoEntregado != null) {
+            throw new DepositoProductoOcupadoException("Retire primero el producto anterior!");
+        }
+
         Producto p= null;
         int precioProducto= 0;
 
@@ -168,5 +181,6 @@ public class Expendedor {
     public Deposito<Dulce> getSuper8D() { return super8D; }
 
     public Producto getProductoEntregado() { return productoEntregado; }
+
 }
 

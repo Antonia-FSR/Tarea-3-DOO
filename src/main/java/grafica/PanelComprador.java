@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * @author jaocSec
  */
 public class PanelComprador extends JPanel {
+    private static final int MAQUINA_X = 100;
+    private static final int MAQUINA_Y = 50;
     private Expendedor exp;
 
     private ArrayList<Moneda> billetera;
@@ -51,6 +53,7 @@ public class PanelComprador extends JPanel {
                     if (monedaEnMano == null) {
                         monedaEnMano = billetera.remove(i);
                         System.out.println("Agarraste una moneda de: " + monedaEnMano.getValor());
+                        repaint();
                     } else {
                         System.out.println("Ya tienes una moneda en la mano.");
                     }
@@ -77,9 +80,12 @@ public class PanelComprador extends JPanel {
                     monedaEnMano = null;
                     numeroDigitado = -1;
 
+                    repaint();
+
                 } catch (Exception e) {
                     System.out.println("La máquina rechazó la compra: " + e.getMessage());
                 }
+
 
             } else {
                 System.out.println("Falta plata en la mano o te faltó digitar el número.");
@@ -89,8 +95,8 @@ public class PanelComprador extends JPanel {
 
 
         //Hitbox vuelto
-        int ctrlX = 100 + 280;
-        int ctrlY = 50 + 60 + 30;
+        int ctrlX = MAQUINA_X + 280;
+        int ctrlY = MAQUINA_Y + 60 + 30;
         int vueltoX = ctrlX + 10;
         int vueltoY = ctrlY + 220 + 25;
         if (x >= vueltoX && x <= vueltoX + 60 && y >= vueltoY && y <= vueltoY + 45) {
@@ -98,6 +104,7 @@ public class PanelComprador extends JPanel {
             if (v != null) {
                 vuelto.add(v); // Lo guardamos en nuestros bolsillos
                 System.out.println("Recogiste vuelto de: " + v.getValor());
+                repaint();
             } else {
                 System.out.println("No hay más vuelto que recoger.");
             }
@@ -113,6 +120,7 @@ public class PanelComprador extends JPanel {
             if (p != null) {
                 compras.add(p); // Lo guardamos en el inventario
                 System.out.println("¡Retiraste tu producto!");
+                repaint();
             } else {
                 System.out.println("La bandeja está vacía.");
             }
@@ -120,8 +128,9 @@ public class PanelComprador extends JPanel {
         }
 
         //Hitbox teclado numerico
-        int btnInicioX = 393;
-        int btnInicioY = 205;
+
+        int btnInicioX = ctrlX + 13;
+        int btnInicioY = ctrlY + 65;
         for (int fila = 0; fila < 3; fila++) {
             for (int col = 0; col < 3; col++) {
                 int bx = btnInicioX + (col * 20);
@@ -130,6 +139,8 @@ public class PanelComprador extends JPanel {
                 if (x >= bx && x <= bx + 14 && y >= by && y <= by + 14) {
                     numeroDigitado = fila * 3 + col + 1;
                     System.out.println("Presionaste: " + numeroDigitado);
+                    exp.setNumeroDigitado(numeroDigitado);
+                    repaint();
                     return;
                 }
             }
@@ -170,6 +181,9 @@ public class PanelComprador extends JPanel {
             vm.paint(g2, 570, 200);
         }
 
+        if(numeroDigitado!=-1){
+            g2.drawString("Código: "+numeroDigitado, 570, 170);
+        }
         //vuelto
         g2.setColor(Color.BLACK);
         g2.drawString("Mi Vuelto:", 570, 280);

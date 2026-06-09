@@ -19,7 +19,7 @@ public class Comprador {
      * @throws PagoInsuficienteException Si el valor de la moneda es inferior al del producto que se quiere comprar.
      * @throws NoHayProductoException Si no hay stock o el codigo del producto es invalido.
      */
-    public Comprador(Moneda m, int eleccion, Expendedor exp) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
+    public Comprador(Moneda m, int eleccion, Expendedor exp) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException, DepositoProductoOcupadoException {
 
         exp.comprarProducto(m, eleccion);
 
